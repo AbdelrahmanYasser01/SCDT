@@ -1,0 +1,94 @@
+<!-- Dashboard glassmorphism overlay -->
+<div class="dashboard-overlay" [class.collapsed]="collapsed()">
+
+  <!-- Toggle collapse button -->
+  <button class="collapse-btn" (click)="toggleCollapse()">
+    {{ collapsed() ? '◀ Show Dashboard' : '▶ Hide' }}
+  </button>
+
+  <!-- Charts grid -->
+  <div class="charts-grid" *ngIf="!collapsed()">
+
+    <!-- Line Chart: Vehicles vs Speed -->
+    <div class="chart-card">
+      <h3 class="chart-title">Traffic Flow</h3>
+      <div echarts [options]="lineChartOption()" class="chart-canvas"></div>
+    </div>
+
+    <!-- Gauge Chart: Density -->
+    <div class="chart-card chart-card--small">
+      <h3 class="chart-title">Network Density</h3>
+      <div echarts [options]="gaugeChartOption()" class="chart-canvas"></div>
+    </div>
+
+    <!-- Radar Chart: Business Metrics -->
+    <div class="chart-card chart-card--small">
+      <h3 class="chart-title">Risk Profile</h3>
+      <div echarts [options]="radarChartOption()" class="chart-canvas"></div>
+    </div>
+
+    <!-- Bar Chart: Sensor Counts -->
+    <div class="chart-card">
+      <h3 class="chart-title">Sensor Vehicle Counts</h3>
+      <div echarts [options]="barChartOption()" class="chart-canvas"></div>
+    </div>
+
+  </div>
+
+  <!-- Controls panel -->
+  <div class="controls-panel" *ngIf="!collapsed()">
+    <div class="control-group">
+      <label>Min Vehicles</label>
+      <input type="range" min="1" max="100" [(ngModel)]="densityMin" />
+      <span class="control-value">{{ densityMin }}</span>
+    </div>
+    <div class="control-group">
+      <label>Max Vehicles</label>
+      <input type="range" min="5" max="200" [(ngModel)]="densityMax" />
+      <span class="control-value">{{ densityMax }}</span>
+    </div>
+    <div class="control-buttons">
+      <button class="btn btn--primary" (click)="applyDensity()">Apply Density</button>
+      <button class="btn btn--accent" (click)="triggerOptimize()">Optimize Traffic</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Chat FAB + panel -->
+<button class="chat-fab" (click)="toggleChat()" [class.open]="chatOpen()">
+  {{ chatOpen() ? '✕' : '💬' }}
+</button>
+
+<div class="chat-panel" *ngIf="chatOpen()">
+  <div class="chat-header">Urban AI Assistant</div>
+  <div class="chat-messages">
+    @for (msg of chatMessages(); track $index) {
+      <div class="chat-bubble" [class.user]="msg.role === 'user'" [class.assistant]="msg.role === 'assistant'">
+        <span class="chat-text">{{ msg.text }}</span>
+        @if (msg.confidence != null) {
+          <span class="chat-conf">{{ (msg.confidence * 100).toFixed(0) }}% confidence</span>
+        }
+      </div>
+    }
+  </div>
+  <div class="chat-input-row">
+    <input
+      class="chat-input"
+      [(ngModel)]="chatInput"
+      placeholder="Ask about the city..."
+      (keydown)="onChatKeydown($event)"
+    />
+    <button class="btn btn--send" (click)="sendChat()">Send</button>
+  </div>
+</div>
+
+<!-- Toast notifications -->
+<div class="toast-container">
+  @for (t of toasts(); track t.id) {
+    <div class="toast" [attr.data-type]="t.type" (click)="dismissToast(t.id)">
+      <strong>{{ t.title }}</strong>
+      <span>{{ t.message }}</span>
+    </div>
+  }
+</div>

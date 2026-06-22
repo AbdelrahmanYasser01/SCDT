@@ -1,0 +1,10 @@
+<configuration>
+    <input>
+        <net-file value="new_cairo.net.xml"/>
+        <route-files value="new_cairo.rou.xml"/>
+    </input>
+    <time>
+        <begin value="0"/>
+        <end value="3600"/>
+    </time>
+</configuration>

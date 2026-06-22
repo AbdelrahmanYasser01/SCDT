@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "description": "CCTV sensor placement for simulation — coordinates in Unreal cm (post-offset). heading_deg: 0=East, 90=North, 180=West, 270=South.",
+  "sensors": [
+    {
+      "id": "cctv_main_int",
+      "type": "camera",
+      "x": 15850.0,
+      "y": 27010.0,
+      "z": 300.0,
+      "fov_deg": 120.0,
+      "heading_deg": 270.0,
+      "range_cm": 5000.0,
+      "optimal_density": 5,
+      "label": "Main Intersection North"
+    },
+    {
+      "id": "cctv_east_bridge",
+      "type": "camera",
+      "x": 42300.0,
+      "y": 18500.0,
+      "z": 300.0,
+      "fov_deg": 90.0,
+      "heading_deg": 180.0,
+      "range_cm": 6000.0,
+      "optimal_density": 4,
+      "label": "East Bridge Approach"
+    },
+    {
+      "id": "cctv_south_junction",
+      "type": "camera",
+      "x": 22100.0,
+      "y": -5800.0,
+      "z": 300.0,
+      "fov_deg": 110.0,
+      "heading_deg": 90.0,
+      "range_cm": 5500.0,
+      "optimal_density": 6,
+      "label": "South Junction"
+    },
+    {
+      "id": "cctv_west_arterial",
+      "type": "camera",
+      "x": -8400.0,
+      "y": 14200.0,
+      "z": 300.0,
+      "fov_deg": 90.0,
+      "heading_deg": 0.0,
+      "range_cm": 7000.0,
+      "optimal_density": 7,
+      "label": "West Arterial Entry"
+    },
+    {
+      "id": "cctv_city_centre",
+      "type": "camera",
+      "x": 5200.0,
+      "y": 9600.0,
+      "z": 400.0,
+      "fov_deg": 140.0,
+      "heading_deg": 315.0,
+      "range_cm": 8000.0,
+      "optimal_density": 10,
+      "label": "City Centre Square"
+    },
+    {
+      "id": "cctv_north_ring",
+      "type": "camera",
+      "x": 11800.0,
+      "y": 46500.0,
+      "z": 300.0,
+      "fov_deg": 90.0,
+      "heading_deg": 180.0,
+      "range_cm": 5000.0,
+      "optimal_density": 4,
+      "label": "North Ring Road"
+    }
+  ]
+}
