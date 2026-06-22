@@ -203,6 +203,7 @@ class WebGISSumoServer:
                         "lat": lat,
                         "z": 0.0,
                         "speed": speed,
+                        "yaw_deg": traci.vehicle.getAngle(vid),
                     }
                     payload_batch.append(v_payload)
 

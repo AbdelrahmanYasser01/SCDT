@@ -108,19 +108,39 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.lastUpdateRegistry.set(data.id, now);
     const time = Cesium.JulianDate.now();
 
+    // Convert SUMO yaw_deg (0=North, 90=East) to Cesium HeadingPitchRoll
+    // Subtracting 90 degrees because the 3D model defaults to facing East (+X axis).
+    const heading = Cesium.Math.toRadians((data.yaw_deg || 0) - 90);
+    const hpr = new Cesium.HeadingPitchRoll(heading, 0, 0);
+    const orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+
     if (!this.entitiesRegistry.has(data.id)) {
       // TASK-016: Conditional Instantiation (New)
       console.log(`[Layer 3 - Lifecycle] Instantiating Entity: ${data.id}`);
       const positionProperty = new Cesium.ConstantPositionProperty(position);
+      const orientationProperty = new Cesium.ConstantProperty(orientation);
       const entity = this.viewer.entities.add({
         id: data.id,
         position: positionProperty,
-        point: {
-          pixelSize: 15,
-          color: Cesium.Color.RED,
-          outlineColor: Cesium.Color.WHITE,
-          outlineWidth: 3,
-          disableDepthTestDistance: Number.POSITIVE_INFINITY
+        orientation: orientationProperty,
+        // point: {
+        //   pixelSize: 15,
+        //   color: Cesium.Color.RED,
+        //   outlineColor: Cesium.Color.WHITE,
+        //   outlineWidth: 3,
+        //   disableDepthTestDistance: Number.POSITIVE_INFINITY
+        // }
+        model: {
+          uri: '/models/ergoninane-fast-71.glb',
+          minimumPixelSize: 32,
+          maximumScale: 100,
+          scale: 0.5,
+          show: true,
+          runAnimations: true,
+          shadows: Cesium.ShadowMode.ENABLED,
+          color: Cesium.Color.WHITE,
+          colorBlendMode: Cesium.ColorBlendMode.MIX,
+          colorBlendAmount: 0.1, // Mix in 20% white to brighten the mesh
         }
       });
       this.entitiesRegistry.set(data.id, entity);
@@ -128,6 +148,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       // TASK-017: Conditional Instantiation (Existing)
       const entity = this.entitiesRegistry.get(data.id);
       entity.position.setValue(position);
+      entity.orientation.setValue(orientation);
     }
   }
 

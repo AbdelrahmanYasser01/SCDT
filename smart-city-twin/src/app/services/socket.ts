@@ -17,6 +17,7 @@ export class SocketService {
     this.socket = io('http://localhost:3000');
 
     this.socket.on('message', (data) => {
+      console.log('message', data);
       this.telemetry$.next(data);
     });
 
